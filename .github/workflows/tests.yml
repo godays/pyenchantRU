@@ -51,6 +51,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox
 
+    - name: Cache .tox
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-tox
+      with:
+        path: .tox
+        key: ${{ matrix.os }}-${{ matrix.python }}-${{ hashFiles('tox.ini') }}
+
     - name: Run tests
       run: |
         tox -e ${{ matrix.tox_env }}
